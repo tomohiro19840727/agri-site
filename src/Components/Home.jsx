@@ -38,7 +38,7 @@ const Home = () => {
   return (
     <div style={{ height: "500px", width: "70%" }}>
       <GoogleMapReact
-        bootstrapURLKeys={{ key: "AIzaSyAMNJ3wqU7bYnWiRVRe_D-YTWcLU3i2yag" }}
+        bootstrapURLKeys={{ key:process.env.REACT_APP_KEY}}
         defaultCenter={{ lat: 42.84976, lng: 140.39758 }} // ここはデフォルトの中心位置を指定
         
         defaultZoom={16}
