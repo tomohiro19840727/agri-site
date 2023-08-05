@@ -1,12 +1,26 @@
 // MapComponent.js
-import React from "react";
+import React, { useEffect, useState } from "react";
 import GoogleMapReact from "google-map-react";
+import { collection, getDocs, query } from 'firebase/firestore';
+import { db } from '../firebase';
 
 
 
 const Home = () => {
-  const targetCoordinates = { lat: 42.851674, lng: 140.392270 };
+  const [location, setLocation] = useState("")
+  
   const distanceThreshold = 0.001; // クリックとの距離の閾値
+
+  useEffect(() => {
+    const getPosts = async () => {
+      const data = await getDocs(query(collection(db, 'location')));
+      setLocation(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    }
+    getPosts();
+    
+   },[]);
+
+   const targetCoordinates = location.length > 0 ? { lat: location[0].lat, lng: location[0].lng } : null;;
 
   const handleMapClick = (event) => {
     // クリック位置の座標
@@ -34,7 +48,7 @@ const Home = () => {
   };
 
 
- 
+  console.log(targetCoordinates)
   return (
     <div style={{ height: "500px", width: "70%" }}>
       <GoogleMapReact
